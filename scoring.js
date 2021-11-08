@@ -3,8 +3,7 @@ const calculateScore = (player) => {
   {
     case 'QB': return QBResults(player)
       break;
-    case 'RB': return RBResults(player)
-      break;
+    case 'RB':
     case 'WR': return WRResults(player)
       break;
     case 'TE': return TEResults(player)
@@ -15,58 +14,47 @@ const calculateScore = (player) => {
 }
 
 const QBResults = (player) => {
-  const results = (player.stats.passing.yards / 25) +
-        (player.stats.passing.touchdowns * 6) +
-        (player.stats.passing.interceptions * -3) +
-        (player.stats.rushing.yards / 10) +
-        (player.stats.rushing.touchdowns * 6) +
-        (player.stats.rushing.fumbles * -3)
+  const passingYards = player.stats.passing.yards
+  const rushingYards = player.stats.rushing.yards
+  const touchdowns = player.stats.rushing.touchdowns + player.stats.passing.touchdowns
+  const fumblesAndInterceptions = player.stats.rushing.fumbles + player.stats.passing.interceptions
 
+  const results = (passingYards / 25) + (touchdowns * 6) + (fumblesAndInterceptions * -3) + (rushingYards / 10)
 
   return results
 }
 
 const RBResults = (player) => {
-  const results = (player.stats.rushing.yards / 10) +
-        (player.stats.rushing.touchdowns * 6) +
-        (player.stats.rushing.fumbles * -3) +
-        (player.stats.receiving.receptions) +
-        (player.stats.receiving.yards / 10) +
-        (player.stats.receiving.touchdowns * 6) +
-        (player.stats.receiving.fumbles * -3) +
-        (player.stats.return.kickreturn.yards / 15) +
-        (player.stats.return.kickreturn.touchdowns * 6) +
-        (player.stats.return.kickreturn.fumbles * -3) +
-        (player.stats.return.puntreturn.yards / 15) +
-        (player.stats.return.puntreturn.touchdowns * 6) +
-        (player.stats.return.puntreturn.fumbles * -3)
+  const rushingAndRecievingYards = player.stats.rushing.yards + player.stats.receiving.yards
+  const returnYards = player.stats.return.kickreturn.yards + player.stats.return.puntreturn.yards
+  const touchdowns = player.stats.rushing.touchdowns + player.stats.receiving.touchdowns + player.stats.return.kickreturn.touchdowns + player.stats.return.puntreturn.touchdowns
+  const fumbles = player.stats.rushing.fumbles + player.stats.receiving.fumbles + player.stats.return.kickreturn.fumbles + player.stats.return.puntreturn.fumbles
+  const receptions = player.stats.receiving.receptions 
+
+  const results = (rushingAndRecievingYards / 10) + (touchdowns * 6) + (fumbles * -3) + (receptions) + (returnYards / 15) 
 
   return results
 }
 
 const WRResults = (player) => {
-  const results = (player.stats.rushing.yards / 10) +
-        (player.stats.rushing.touchdowns * 6) +
-        (player.stats.rushing.fumbles * -3) +
-        (player.stats.receiving.receptions) +
-        (player.stats.receiving.yards / 10) +
-        (player.stats.receiving.touchdowns * 6) +
-        (player.stats.receiving.fumbles * -3) +
-        (player.stats.return.kickreturn.yards / 15) +
-        (player.stats.return.kickreturn.touchdowns * 6) +
-        (player.stats.return.kickreturn.fumbles * -3) +
-        (player.stats.return.puntreturn.yards / 15) +
-        (player.stats.return.puntreturn.touchdowns * 6) +
-        (player.stats.return.puntreturn.fumbles * -3)
+  const rushingAndRecievingYards = player.stats.rushing.yards + player.stats.receiving.yards
+  const returnYards = player.stats.return.kickreturn.yards + player.stats.return.puntreturn.yards
+  const touchdowns = player.stats.rushing.touchdowns + player.stats.receiving.touchdowns + player.stats.return.kickreturn.touchdowns + player.stats.return.puntreturn.touchdowns
+  const fumbles = player.stats.rushing.fumbles + player.stats.receiving.fumbles + player.stats.return.kickreturn.fumbles + player.stats.return.puntreturn.fumbles
+  const receptions = player.stats.receiving.receptions
+
+  const results = (rushingAndRecievingYards / 10) + (touchdowns * 6) + (fumbles * -3) + (receptions) + (returnYards / 15)
 
   return results
 }
 
 const TEResults = (player) => {
-  const results = (player.stats.receiving.receptions) +
-        (player.stats.receiving.yards / 10) +
-        (player.stats.receiving.touchdowns * 6) +
-        (player.stats.receiving.fumbles * -3)
+  const receptions = player.stats.receiving.receptions
+  const recievingYards = player.stats.receiving.yards
+  const touchdowns = player.stats.receiving.touchdowns
+  const fumbles = player.stats.receiving.fumbles
+
+  const results = (receptions) + (recievingYards / 10) + (touchdowns * 6) + (fumbles * -3)
 
   return results
 }
